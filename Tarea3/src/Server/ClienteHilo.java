@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.net.Socket;
 import java.util.logging.Logger;
 import java.util.Scanner;
+//hola
 public class ClienteHilo extends Thread {
     private DataInputStream in;
     private DataOutputStream out;

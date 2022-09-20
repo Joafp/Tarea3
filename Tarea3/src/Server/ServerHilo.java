@@ -56,7 +56,7 @@ public class ServerHilo extends Thread {
                         }
                      break;
                     default:
-                        out.writeUTF("Solo numeros del 1 al 3");
+                        out.writeUTF("Solo numeros del 1 al 6");
                 }
                 
             } catch (IOException e) {
