@@ -2,6 +2,7 @@ package Server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.net.Socket;
@@ -23,7 +24,8 @@ public class ClienteHilo extends Thread {
         while(!salir){
             System.out.println("1. Almacenar consumo en el archivo");
             System.out.println("2. Consumo hasta el momento");
-            System.out.println("3. Salir");
+            System.out.println("5 Listar NIS activos");
+            System.out.println("6 Listar NIS inactivos");
             try{
                 opcion=sn.nextInt();
                 out.writeInt(opcion);

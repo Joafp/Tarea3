@@ -13,11 +13,11 @@ import javax.print.DocFlavor.STRING;
 public class ServerHilo extends Thread {
     private DataInputStream in;
     private DataOutputStream out;
-    private String nombreCliente;
-    public ServerHilo(DataInputStream in,DataOutputStream out,String nombreCliente){
+    private int NIS;
+    public ServerHilo(DataInputStream in,DataOutputStream out,int NIS){
         this.in=in;
         this.out=out;
-        this.nombreCliente=nombreCliente;
+        this.NIS=NIS;
     }
     @Override
     public void run(){
@@ -33,7 +33,7 @@ public class ServerHilo extends Thread {
                         int consumo=in.readInt();
                         escribirconsumo(f,consumo);
                         out.writeUTF("Consumo guardado correctamente");
-                        System.out.println("Se escribio el consumo en el cliente"+nombreCliente);
+                        System.out.println("Se escribio el consumo en el cliente"+NIS);
                         break;
                     case 2:
                         break;
@@ -50,7 +50,7 @@ public class ServerHilo extends Thread {
     }
     public void escribirconsumo(File f,int consumo) throws IOException{
         FileWriter fw=new FileWriter(f,true);
-        fw.write(nombreCliente+":"+consumo+"\r\n");
+        fw.write(NIS+":"+consumo+"\r\n");
         fw.close();
     }
 }
