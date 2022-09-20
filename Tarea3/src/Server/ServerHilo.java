@@ -16,10 +16,12 @@ public class ServerHilo extends Thread {
     private DataOutputStream out;
     private int NIS;
     private List<Usuario> usuarios;
-    public ServerHilo(DataInputStream in,DataOutputStream out,int NIS,List<Usuario> usuarios){
+    private Socket sc;
+    private ServerSocket servidor;
+    public ServerHilo(DataInputStream in,DataOutputStream out,List<Usuario> usuarios,ServerSocket servidor){
+        this.servidor=servidor;
         this.in=in;
         this.out=out;
-        this.NIS=NIS;
         this.usuarios=usuarios;
     }
     @Override
@@ -41,9 +43,39 @@ public class ServerHilo extends Thread {
                     case 2:
                         break;
                     case 3:
+                       NIS=in.readInt();
+                       for(int i=0;i<usuarios.size();i++){
+                          if(usuarios.get(i).NIS==NIS){
+                               usuarios.get(i).apagado();
+                            }
+                        }
+                        out.writeUTF("Se termino la conexion exitosamente");
+                       System.out.println("Se termino correctamente la conexion con el cliente "+NIS);
                         break;
+                    case 4:
+                     boolean existe=false;
+                     NIS=in.readInt();
+                     System.out.println("Estableciendo conexion entre el servidor y el cliente "+NIS); 
+                     for(int i=0;i<usuarios.size();i++){
+                        if(usuarios.get(i).NIS==NIS){
+                            existe=true;
+                            break;
+                        }
+                      }
+                      if (existe==true){
+                        out.writeUTF("Este NIS ya cuenta con una conexion activa");
+                        System.out.println("Conexion denegada al cliente : "+NIS);
+                      }
+                      else{
+                        Usuario us=new Usuario(NIS, 1);//Al conectar se pone el estado en 1
+                        usuarios.add(us);// se añade un nuevo usuario activo al servidor
+                        out.writeUTF("Conexion exitosa");
+                        System.out.println("Creada la conexion con: "+NIS);
+                      }
+                      
+                     break;
                     default:
-                        out.writeUTF("Solo numeros del 1 al 3");
+                    out.writeUTF("Solo numeros del 1 al 4");
                 }
                 
             } catch (IOException e) {

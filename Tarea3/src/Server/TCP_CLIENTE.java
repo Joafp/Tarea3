@@ -17,11 +17,6 @@ public class TCP_CLIENTE {
             Socket sc=new Socket(HOST,PUERTO);
             in =new DataInputStream(sc.getInputStream());
             out=new DataOutputStream(sc.getOutputStream());
-            Scanner sn=new Scanner(System.in);
-            String mensaje=in.readUTF();
-            System.out.println(mensaje);
-            int NIS=sn.nextInt();
-            out.writeInt(NIS);
             ClienteHilo hilo=new ClienteHilo(in,out);
             hilo.start();
             hilo.join();
