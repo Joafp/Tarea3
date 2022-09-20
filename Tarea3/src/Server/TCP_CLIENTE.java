@@ -22,16 +22,12 @@ public class TCP_CLIENTE {
             System.out.println(mensaje);
             int NIS=sn.nextInt();
             out.writeInt(NIS);
-            ClienteHilo hilo=new ClienteHilo(in,out);
+            ClienteHilo hilo=new ClienteHilo(in,out,sc);
             hilo.start();
             hilo.join();
-
             sc.close();
         }catch(IOException ex){
             Logger.getLogger(TCP_CLIENTE.class.getName()).log(Level.SEVERE, null, ex);
-        }  
-        
-
-        
+        }     
     }
 }
