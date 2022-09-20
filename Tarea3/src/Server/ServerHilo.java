@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Logger;
-import javax.print.DocFlavor.STRING;
 public class ServerHilo extends Thread {
     private DataInputStream in;
     private DataOutputStream out;
@@ -42,6 +41,20 @@ public class ServerHilo extends Thread {
                         break;
                     case 3:
                         break;
+                    case 5:
+                        out.writeInt(usuarios.size());
+                        for(int i=0;i<usuarios.size();i++){
+                            out.writeInt(usuarios.get(i).getNIS());
+                            out.writeInt(usuarios.get(i).getestado());
+                        }
+                        break;
+                    case 6:
+                        out.writeInt(usuarios.size());
+                        for(int i=0;i<usuarios.size();i++){
+                            out.writeInt(usuarios.get(i).getNIS());
+                            out.writeInt(usuarios.get(i).getestado());
+                        }
+                     break;
                     default:
                         out.writeUTF("Solo numeros del 1 al 3");
                 }

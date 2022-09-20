@@ -11,9 +11,11 @@ import java.util.Scanner;
 public class ClienteHilo extends Thread {
     private DataInputStream in;
     private DataOutputStream out;
-    public ClienteHilo(DataInputStream in,DataOutputStream out){
+    private Socket sc;
+    public ClienteHilo(DataInputStream in,DataOutputStream out,Socket sc){
         this.in=in;
         this.out=out;
+        this.sc=sc;
     }
     @Override
     public void run(){
@@ -26,7 +28,9 @@ public class ClienteHilo extends Thread {
             System.out.println("2. Consumo hasta el momento");
             System.out.println("5 Listar NIS activos");
             System.out.println("6 Listar NIS inactivos");
+            System.out.println("7 lista consumos");
             try{
+                Log myLog=new Log("log.txt");
                 opcion=sn.nextInt();
                 out.writeInt(opcion);
                 switch(opcion){
@@ -36,10 +40,39 @@ public class ClienteHilo extends Thread {
                         out.writeInt(consumo);
                         mensaje=in.readUTF();
                         System.out.println(mensaje);
+                        myLog.addLine("Origen: "+sc.getInetAddress()+" Destino"+sc.getPort()+"Ingresar consumo");
                         break;
                     case 2:
                         break;
                     case 3:
+                        break;
+                    case 5:
+                        int tama=in.readInt();
+                        int nisa;
+                        int estadoa;
+                        System.out.println("Lista de usuarios activos");
+                        for(int i=0;i<tama;i++){
+                            nisa=in.readInt();
+                            estadoa=in.readInt();
+                            if (estadoa==1){
+                                System.out.println(nisa);
+                            }
+                        }
+                        myLog.addLine("Origen: "+sc.getInetAddress()+" Destino"+sc.getPort()+"Listar usuario activos");
+                        break;
+                    case 6:
+                        int tami=in.readInt();
+                        int nisi;
+                        int estadoi;
+                        System.out.println("Lista de usuarios Inactivos");
+                        for(int i=0;i<tami;i++){
+                            nisi=in.readInt();
+                            estadoi=in.readInt();
+                            if (estadoi==0){
+                                System.out.println(nisi);
+                            }
+                        }
+                        myLog.addLine("Origen: "+sc.getInetAddress()+" Destino"+sc.getPort()+"Listar usuario inactivos");
                         break;
                     default:
                         mensaje=in.readUTF();
