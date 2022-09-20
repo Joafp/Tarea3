@@ -8,10 +8,9 @@ import java.util.logging.Level;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Logger;
-//cambios
 public class TCP_SERVER{
     List<ServerHilo> hiloservidor;
-    List<String> usuarios;
+    List<Usuario> usuarios;
     public void ejecutar(){
         ServerSocket servidor=null;
         Socket sc=null;
@@ -28,7 +27,9 @@ public class TCP_SERVER{
                 out=new DataOutputStream(sc.getOutputStream());
                 out.writeUTF("Indica tu numero de identificacion");
                 int NIS=in.readInt();
-                ServerHilo hilo=new ServerHilo(in,out,NIS);
+                Usuario us=new Usuario(NIS, 1);//Al conectar se pone el estado en 1
+                usuarios.add(us);// se añade un nuevo usuario activo al servidor
+                ServerHilo hilo=new ServerHilo(in,out,NIS,usuarios);//le mando la lista de usuario para que el cliente pueda ver los activos e inactivos
                 hilo.start();
                 System.out.println("Creada la conexion con: "+NIS);
 
@@ -40,7 +41,7 @@ public class TCP_SERVER{
     public static void main(String []args){
        TCP_SERVER tms=new TCP_SERVER();
        tms.hiloservidor=new ArrayList<ServerHilo>();
-       tms.usuarios=new ArrayList<String>();
+       tms.usuarios=new ArrayList<Usuario>();
        tms.ejecutar();
     }
 }

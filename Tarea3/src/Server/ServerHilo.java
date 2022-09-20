@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.net.ServerSocket;
@@ -14,10 +15,12 @@ public class ServerHilo extends Thread {
     private DataInputStream in;
     private DataOutputStream out;
     private int NIS;
-    public ServerHilo(DataInputStream in,DataOutputStream out,int NIS){
+    private List<Usuario> usuarios;
+    public ServerHilo(DataInputStream in,DataOutputStream out,int NIS,List<Usuario> usuarios){
         this.in=in;
         this.out=out;
         this.NIS=NIS;
+        this.usuarios=usuarios;
     }
     @Override
     public void run(){
