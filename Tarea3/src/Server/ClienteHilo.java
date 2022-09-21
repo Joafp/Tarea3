@@ -7,8 +7,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.net.Socket;
 import java.util.logging.Logger;
-import java.util.Scanner;
-//hola
 public class ClienteHilo extends Thread {
     private DataInputStream in;
     private DataOutputStream out;
@@ -24,12 +22,13 @@ public class ClienteHilo extends Thread {
         Scanner sn=new Scanner(System.in);
         int opcion=0;
         boolean salir=false;
+        boolean menu;
         while(!salir){
+            menu=false;
             System.out.println("1. Almacenar consumo en el archivo");
-            System.out.println("2. Consumo hasta el momento");
-            System.out.println("5 Listar NIS activos");
-            System.out.println("6 Listar NIS inactivos");
-            System.out.println("7 lista consumos");
+            System.out.println("2. Para desconexion");
+            System.out.println("3 Listar NIS activos");
+            System.out.println("4 Listar NIS inactivos");
             try{
                 Log myLog=new Log("log.txt");
                 opcion=sn.nextInt();
@@ -41,13 +40,36 @@ public class ClienteHilo extends Thread {
                         out.writeInt(consumo);
                         mensaje=in.readUTF();
                         System.out.println(mensaje);
-                        myLog.addLine("Origen: "+sc.getInetAddress()+" Destino"+sc.getPort()+"Ingresar consumo");
+                        myLog.addLine("Origen: "+sc.getLocalPort()+" Destino: "+sc.getPort()+" Ingresar Consumo");
+                        while(!menu){
+                            System.out.println("Presiona 1 para volver al menu");
+                            int aux=sn.nextInt();
+                            if(aux==1){
+                                menu=true;
+                            }else{
+                                System.out.println("Debes presionar 1 si quieres volver al menu");
+                            }
+                        }
                         break;
                     case 2:
+                        System.out.println("Indique numero de NIS a ser desconectado");
+                        int NIS=sn.nextInt();
+                        out.writeInt(NIS);
+                        System.out.println("Realizando desconexion");
+                        mensaje=in.readUTF();
+                        System.out.println(mensaje);
+                        myLog.addLine("Origen: "+sc.getPort()+" Destino: "+sc.getInetAddress()+" Realizar desconexion");
+                        while(!menu){
+                            System.out.println("Presiona 1 para volver al menu");
+                            int aux=sn.nextInt();
+                            if(aux==1){
+                                menu=true;
+                            }else{
+                                System.out.println("Debes presionar 1 si quieres volver al menu");
+                            }
+                        }
                         break;
                     case 3:
-                        break;
-                    case 5:
                         int tama=in.readInt();
                         int nisa;
                         int estadoa;
@@ -59,9 +81,18 @@ public class ClienteHilo extends Thread {
                                 System.out.println(nisa);
                             }
                         }
-                        myLog.addLine("Origen: "+sc.getInetAddress()+" Destino"+sc.getPort()+"Listar usuario activos");
+                        myLog.addLine("Origen: "+sc.getPort()+" Destino: "+sc.getInetAddress()+" Lista usuarios activos");
+                        while(!menu){
+                            System.out.println("Presiona 1 para volver al menu");
+                            int aux=sn.nextInt();
+                            if(aux==1){
+                                menu=true;
+                            }else{
+                                System.out.println("Debes presionar 1 si quieres volver al menu");
+                            }
+                        }
                         break;
-                    case 6:
+                    case 4:
                         int tami=in.readInt();
                         int nisi;
                         int estadoi;
@@ -73,7 +104,16 @@ public class ClienteHilo extends Thread {
                                 System.out.println(nisi);
                             }
                         }
-                        myLog.addLine("Origen: "+sc.getInetAddress()+" Destino"+sc.getPort()+"Listar usuario inactivos");
+                        myLog.addLine("Origen: "+sc.getPort()+" Destino: "+sc.getInetAddress()+" Lista usuarios inactivos");
+                        while(!menu){
+                            System.out.println("Presiona 1 para volver al menu");
+                            int aux=sn.nextInt();
+                            if(aux==1){
+                                menu=true;
+                            }else{
+                                System.out.println("Debes presionar 1 si quieres volver al menu");
+                            }
+                        }
                         break;
                     default:
                         mensaje=in.readUTF();
