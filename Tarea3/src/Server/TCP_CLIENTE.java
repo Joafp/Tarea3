@@ -14,18 +14,28 @@ public class TCP_CLIENTE {
         DataInputStream in;
         DataOutputStream out;
         try{
+            Log myLog=new Log("log.txt");
+            Scanner sn=new Scanner(System.in);
+            String mensaje=new String();
+            System.out.println("Para ingresar al servidor por favor ingrese su numero NIS");
+            int NIS=sn.nextInt();
             Socket sc=new Socket(HOST,PUERTO);
             in =new DataInputStream(sc.getInputStream());
             out=new DataOutputStream(sc.getOutputStream());
-            Scanner sn=new Scanner(System.in);
-            String mensaje=in.readUTF();
-            System.out.println(mensaje);
-            int NIS=sn.nextInt();
             out.writeInt(NIS);
-            ClienteHilo hilo=new ClienteHilo(in,out,sc);
-            hilo.start();
-            hilo.join();
-            sc.close();
+            mensaje=in.readUTF();
+            System.out.println(mensaje);
+            int aux=in.readInt();
+            if (aux==1){
+                myLog.addLine("Origen: "+sc.getInetAddress()+" Destino: "+sc.getPort()+" Realizar conexion");
+                ClienteHilo hilo=new ClienteHilo(in,out,sc);
+                hilo.start();
+                hilo.join();
+                sc.close();
+            }else{
+                System.out.println("Programa terminado");
+            }
+           
         }catch(IOException ex){
             Logger.getLogger(TCP_CLIENTE.class.getName()).log(Level.SEVERE, null, ex);
         }     
