@@ -12,8 +12,13 @@ import java.util.Scanner;
 public class ClienteHilo extends Thread {
     private DataInputStream in;
     private DataOutputStream out;
+<<<<<<< HEAD
     private Socket sc;
     public ClienteHilo(DataInputStream in,DataOutputStream out,Socket sc){
+=======
+    private int NIS;
+    public ClienteHilo(DataInputStream in,DataOutputStream out){
+>>>>>>> origin/rama_Carlos
         this.in=in;
         this.out=out;
         this.sc=sc;
@@ -21,12 +26,15 @@ public class ClienteHilo extends Thread {
     @Override
     public void run(){
         String mensaje=new String();
+        System.out.println("ingrese la opcion");
         Scanner sn=new Scanner(System.in);
         int opcion=0;
         boolean salir=false;
         while(!salir){
             System.out.println("1. Almacenar consumo en el archivo");
             System.out.println("2. Consumo hasta el momento");
+            System.out.println("3. Para desconexion");
+            System.out.println("4. Para realizar una conexion al servidor con el NIS especifico");
             System.out.println("5 Listar NIS activos");
             System.out.println("6 Listar NIS inactivos");
             System.out.println("7 lista consumos");

@@ -15,10 +15,12 @@ public class ServerHilo extends Thread {
     private DataOutputStream out;
     private int NIS;
     private List<Usuario> usuarios;
-    public ServerHilo(DataInputStream in,DataOutputStream out,int NIS,List<Usuario> usuarios){
+    private Socket sc;
+    private ServerSocket servidor;
+    public ServerHilo(DataInputStream in,DataOutputStream out,List<Usuario> usuarios,ServerSocket servidor){
+        this.servidor=servidor;
         this.in=in;
         this.out=out;
-        this.NIS=NIS;
         this.usuarios=usuarios;
     }
     @Override
@@ -40,6 +42,14 @@ public class ServerHilo extends Thread {
                     case 2:
                         break;
                     case 3:
+                       NIS=in.readInt();
+                       for(int i=0;i<usuarios.size();i++){
+                          if(usuarios.get(i).NIS==NIS){
+                               usuarios.get(i).apagado();
+                            }
+                        }
+                        out.writeUTF("Se termino la conexion exitosamente");
+                       System.out.println("Se termino correctamente la conexion con el cliente "+NIS);
                         break;
                     case 5:
                         out.writeInt(usuarios.size());
