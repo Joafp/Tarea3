@@ -10,7 +10,11 @@ El programa "main" se encuentra en la rama llamada rama_joaquin. Las otras ramas
 No utilizamos base de datos alguna. Almacenamos los datos en dos archivos, el primero llamado "log.txt" en donde guardamos la informacion de las operaciones realizadas en el servidor con sus datos correspondientes.El otro archivo llamado "consumos.txt"  guardamos los consumos que va teniendo cada cliente.
 Optamos por realizar el TCP con hilos, al ejecutar nuestro servidor este esperara la conexion y realizara el trabajo creando y asignandole un hilo al cliente.
 Cuando ejecutamos el cliente, pedimos a este que nos diga que operacion quiere realizar(la conexion es automatica).
-Para almacenar un consumo el cliente ingresa dicho consumo y nuestro servidor guarda el consumo con su numero de NIS correspondiente en el archivo consumos.txt.
-La opcion de realizar desconexion realiza un cambio en el estado de nuestro cliente y luego procede a realizar la desconexion. Esto para poder listar los clientes inactivos.
+Tenemos 4 clases definidas. La primera llamada usuario donde le asignaremos a cada uno un numero de NIS,su respectivo consumo y su estado. La segunda clase llamada consumo contiene una lista de consumos, esto para poder listar los distintos consumos de un mismo NIS, tambien tenemos otra clase para convertir estos datos al formato JSON.
+Luego tenemos la clase log que se encarga de escribir en el archivo los datos requeridos en el trabajo.
+
+## OPCIONES DEL CLIENTE
+Para almacenar un consumo(opcion 1) el cliente ingresa dicho consumo y nuestro servidor guarda el consumo con su numero de NIS correspondiente en el archivo consumos.txt.
+La opcion de realizar desconexion(opcion 2) realiza un cambio en el estado de nuestro cliente y luego procede a realizar la desconexion. Esto para poder listar los clientes inactivos.
 La opcion 3 y 4 del menu listan los clientes activos e inactivos respectivamente, dependiendo si tiene un valor 1(activo) o 0(inactivo).
 Por ultimo tenemos la opcion de listar consumos, que simplemente muestra al cliente los consumos realizados por ese NIS hasta ese momento.
