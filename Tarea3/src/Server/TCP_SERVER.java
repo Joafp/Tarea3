@@ -29,6 +29,7 @@ public class TCP_SERVER{
                 hilo.start();
             }
         }catch(IOException ex){
+            System.out.print("No se pudo conectar el cliente al servidor");
             Logger.getLogger(TCP_SERVER.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

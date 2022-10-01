@@ -3,9 +3,11 @@ package Server;
 public class Usuario {
     int NIS;
     int estado;//si es 0 esta inactivo en cambio si es 1 esta activo
-    public Usuario(int NIS,int estado){
+    Consumo consumo;
+    public Usuario(int NIS,int estado,Consumo consumo){
         this.NIS=NIS;
         this.estado=estado;
+        this.consumo=consumo;
     }
     public int getestado(){
         return this.estado;
@@ -18,5 +20,11 @@ public class Usuario {
     }
     public int getNIS(){
         return this.NIS;
+    }
+    public Consumo getConsumo(){
+        return consumo;
+    }
+    public void setConsumo(Consumo consumo){
+        this.consumo=consumo;
     }
 }

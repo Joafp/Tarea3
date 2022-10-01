@@ -7,6 +7,8 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.net.Socket;
 import java.util.logging.Logger;
+
+import org.junit.platform.reporting.shadow.org.opentest4j.reporting.events.core.HostName;
 public class TCP_CLIENTE {
     public static void main(String [] args) throws InterruptedException{
         final String HOST="127.0.0.1";
@@ -27,8 +29,8 @@ public class TCP_CLIENTE {
             System.out.println(mensaje);
             int aux=in.readInt();
             if (aux==1){
-                myLog.addLine("Origen: "+sc.getInetAddress()+" Destino: "+sc.getPort()+" Realizar conexion");
-                ClienteHilo hilo=new ClienteHilo(in,out,sc);
+                myLog.addLine("Origen: "+sc.getLocalPort()+" Destino: "+sc.getPort()+" Realizar conexion");
+                ClienteHilo hilo=new ClienteHilo(in,out,sc,NIS);
                 hilo.start();
                 hilo.join();
                 sc.close();

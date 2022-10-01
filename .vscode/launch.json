@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "Tarea3-1_f610be9b"
+        },
+        {
+            "type": "java",
+            "name": "Launch TCP_CLIENTE",
+            "request": "launch",
+            "mainClass": "Server.TCP_CLIENTE",
+            "projectName": "Tarea3-1_f610be9b"
+        },
+        {
+            "type": "java",
+            "name": "Launch TCP_SERVER",
+            "request": "launch",
+            "mainClass": "Server.TCP_SERVER",
+            "projectName": "Tarea3-1_f610be9b"
+        }
+    ]
+}

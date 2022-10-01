@@ -33,10 +33,12 @@ public class ServerHilo extends Thread {
         try{
             boolean existe=false;
             NIS=in.readInt();
-            System.out.println("Estableciendo conexion entre el servidor y el cliente "+NIS); 
+            System.out.println("Estableciendo conexion entre el servidor y el cliente con NIS: "+NIS); 
             for(int i=0;i<usuarios.size();i++){
                 if(usuarios.get(i).NIS==NIS){
-                    existe=true;
+                    if (usuarios.get(i).estado==1){
+                        existe=true;
+                    }
                     break;
                 }
             }
@@ -47,11 +49,12 @@ public class ServerHilo extends Thread {
                 salir=true;
             }
             else{
-                Usuario us=new Usuario(NIS, 1);//Al conectar se pone el estado en 1
+                Consumo consumo=new Consumo(NIS);
+                Usuario us=new Usuario(NIS, 1,consumo);//Al conectar se pone el estado en 1
                 usuarios.add(us);// se añade un nuevo usuario activo al servidor
                 out.writeUTF("Conexion exitosa");
                 out.writeInt(1);
-                System.out.println("Creada la conexion con: "+NIS);
+                System.out.println("Creada la conexion con el NIS: : "+NIS);
             }
         } catch (IOException e) {
                 Logger.getLogger(ServerHilo.class.getName()).log(Level.SEVERE,null,e);
@@ -62,19 +65,26 @@ public class ServerHilo extends Thread {
                 switch(opcion){
                     case 1:
                         int consumo=in.readInt();
+                        for(int i=0;i<usuarios.size();i++){
+                            if(usuarios.get(i).NIS==NIS){
+                                usuarios.get(i).getConsumo().getConsumos().add(consumo);
+                                break;
+                            }
+                        }
                         escribirconsumo(f,consumo);
                         out.writeUTF("Consumo guardado correctamente");
-                        System.out.println("Se escribio el consumo en el cliente: "+NIS);
+                        System.out.println("Se escribio el consumo en el cliente con NIS: "+NIS);
                         break;
                     case 2:
                        NIS=in.readInt();
                        for(int i=0;i<usuarios.size();i++){
-                          if(usuarios.get(i).getNIS()==NIS){
+                            if(usuarios.get(i).getNIS()==NIS){
                                usuarios.get(i).apagado();
                             }
                         }
                         out.writeUTF("Se termino la conexion exitosamente");
-                        System.out.println("Se termino correctamente la conexion con el cliente "+NIS);
+                        System.out.println("Se termino correctamente la conexion con el cliente con NIS: "+NIS);
+                        salir=true;
                         break;
                     case 3:
                         out.writeInt(usuarios.size());
@@ -90,8 +100,19 @@ public class ServerHilo extends Thread {
                             out.writeInt(usuarios.get(i).getestado());
                         }
                      break;
+                    case 5:
+                        int auxNIS=in.readInt();
+                        for(int i=0;i<usuarios.size();i++){
+                            if(usuarios.get(i).getNIS()==auxNIS){
+                                out.writeInt(usuarios.get(i).getConsumo().getConsumos().size());
+                                for(int j=0;j<usuarios.get(i).getConsumo().getConsumos().size();j++){
+                                    out.writeInt(usuarios.get(i).getConsumo().getConsumos().get(j));
+                                }
+                            }
+                        }
+                        break;
                     default:
-                        out.writeUTF("Solo numeros del 1 al 4");
+                        out.writeUTF("Solo numeros del 1 al 5");
                 }
                 
             } catch (IOException e) {
